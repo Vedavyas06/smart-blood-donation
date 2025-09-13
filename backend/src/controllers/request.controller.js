@@ -58,7 +58,7 @@ export const findMatchingDonors = asyncHandler(async (req, res) => {
         <h2>Urgent Blood Request</h2>
         <p>Dear <b>${donor.name}</b>,</p>
         <p>A hospital near you (<b>${hospital.name}</b>) urgently requires <b>${bloodGroup}</b> blood.</p>
-        <p>Quantity Needed: ${req.body.quantity || "Not specified"} units</p>
+        <p>Quantity Needed: ${req.body.quantity || "1"} units</p>
         <p>Location: ${hospital.location}</p>
         <p>Please consider donating at the earliest.</p>
       `,

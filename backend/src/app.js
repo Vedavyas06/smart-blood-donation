@@ -19,22 +19,22 @@ app.use("/donor", userRoute)
 app.use("/hospital", hospitalRoute)
 app.use("/requests", requestRoutes);
 
-// app.use((err, req, res, next) => {
-//     console.error(err); // for debugging
+app.use((err, req, res, next) => {
+    console.error(err); // for debugging
 
-//     if (err instanceof ApiError) {
-//             return res.status(err.statusCode).json({
-//                 statusCode: err.statusCode,
-//                 success: err.success,
-//                 message: err.message,  
-//                 data: err.data,
-//                 errors: err.errors
-//         });
-//     }
+    if (err instanceof ApiError) {
+            return res.status(err.statusCode).json({
+                statusCode: err.statusCode,
+                success: err.success,
+                message: err.message,  
+                data: err.data,
+                errors: err.errors
+        });
+    }
 
-//     return res.status(500).json({
-//         success: false,
-//         message: "Internal Server Error",
-//     });
-// });
+    return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+    });
+});
 export default app
