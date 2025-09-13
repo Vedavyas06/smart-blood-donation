@@ -26,17 +26,17 @@ export const loginDonor = asyncHandler(async (req, res) => {
         httpOnly:true,
         secure:true
     }
-    res.status(200).cookie("token", token, options).json(new ApiResponse(200, "Donor logged in successfully", { donor,token }));
+    res.status(200).cookie("donorToken", token, options).json(new ApiResponse(200, "Donor logged in successfully", { donor,token }));
 });
 
 export const logOutDonor = asyncHandler(async (req, res) => {
-    const donor = req.user;
+    const donor = req.donor;
     donor.token = null;
     await donor.save();
     const options={
         httpOnly:true,
         secure:true
     }
-    res.status(200).clearCookie("token",options).json(new ApiResponse(200, "Donor logged out successfully"));
+    res.status(200).clearCookie("donorToken",options).json(new ApiResponse(200, "Donor logged out successfully"));
 });
 

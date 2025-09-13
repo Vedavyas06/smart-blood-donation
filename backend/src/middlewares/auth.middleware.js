@@ -5,7 +5,7 @@ import { Donor } from "../models/donor.model.js";
 import { Hospital } from "../models/hospital.model.js";
 export const verifyJWTDonor = asyncHandler(async(req, _, next) => {
     try {
-        const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "")
+        const token = req.cookies?.donorToken || req.header("Authorization")?.replace("Bearer ", "")
         
         // console.log(token);
         if (!token) {
@@ -21,7 +21,7 @@ export const verifyJWTDonor = asyncHandler(async(req, _, next) => {
             throw new ApiError(401, "Invalid Access Token")
         }
     
-        req.user = user;
+        req.donor = user;
         next()
     } catch (error) {
         throw new ApiError(401, error?.message || "Invalid access token")
@@ -31,7 +31,7 @@ export const verifyJWTDonor = asyncHandler(async(req, _, next) => {
 
 export const verifyJWTHospital = asyncHandler(async(req, _, next) => {
     try {
-        const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "")
+        const token = req.cookies?.hospitalToken || req.header("Authorization")?.replace("Bearer ", "")
         
         // console.log(token);
         if (!token) {
@@ -47,7 +47,7 @@ export const verifyJWTHospital = asyncHandler(async(req, _, next) => {
             throw new ApiError(401, "Invalid Access Token")
         }
     
-        req.user = user;
+        req.hospital = user;
         next()
     } catch (error) {
         throw new ApiError(401, error?.message || "Invalid access token")
