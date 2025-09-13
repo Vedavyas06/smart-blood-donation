@@ -78,7 +78,7 @@ const HospitalDashboard: React.FC = () => {
           quantity: Number(requestForm.quantity),
         }),
       });
-      console.log(response);
+      // console.log(response);
       if (response.ok) {
         const request: BloodRequest = {
           id: Date.now().toString(),

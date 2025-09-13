@@ -56,6 +56,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       if (response.ok) {
         const donor = await response.json();
+        localStorage.setItem('donorToken', donor.message.donor.token);
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userType', 'donor');
         localStorage.setItem('donorData', JSON.stringify(donor));
