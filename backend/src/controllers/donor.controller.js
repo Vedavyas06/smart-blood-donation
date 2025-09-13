@@ -30,7 +30,7 @@ export const loginDonor = asyncHandler(async (req, res) => {
 });
 
 export const logOutDonor = asyncHandler(async (req, res) => {
-    const donor = req.donor;
+    const donor = req.user;
     donor.token = null;
     await donor.save();
     const options={

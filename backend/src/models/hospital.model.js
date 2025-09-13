@@ -1,9 +1,18 @@
 import mongoose from "mongoose"
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 const hospitalSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    email:{
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
     },
     location: {
         type: String,
@@ -17,6 +26,14 @@ const hospitalSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
+    },
+    password:{
+        type:String,
+        required:true
+    },
+    token:{
+        type:String,
+        default:null
     }
 }, {
     timestamps: true
@@ -27,6 +44,9 @@ hospitalSchema.pre('save', async function (next) {
     }
     next();
 });
+hospitalSchema.methods.comparePassword = async function (password) {
+    return await bcrypt.compare(password, this.password);
+}
 hospitalSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     return token;
