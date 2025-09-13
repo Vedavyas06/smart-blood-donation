@@ -11,12 +11,12 @@
     "mongodb": "^6.19.0",
     "mongoose": "^8.18.1",
     "mongoose-aggregate-paginate-v2": "^1.1.4",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.6"
   },
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
