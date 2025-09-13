@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <Heart className="h-8 w-8 text-red-600" />
-              <span className="font-bold text-xl text-gray-800">BloodConnect</span>
+              <span className="font-bold text-xl text-gray-800">BloodLink</span>
             </Link>
           </div>
 
