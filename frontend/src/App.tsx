@@ -10,7 +10,11 @@ import HospitalRegister from './pages/HospitalRegister';
 import HospitalLogin from './pages/HospitalLogin';
 import HospitalDashboard from './pages/HospitalDashboard';
 
+<<<<<<< HEAD
 export default function App() {
+=======
+function App() {
+>>>>>>> 8e363850b883389c54917a14df6befe5895424dc
   return (
     <Router>
       <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -31,3 +35,8 @@ export default function App() {
     </Router>
   );
 }
+<<<<<<< HEAD
+=======
+
+export default App;
+>>>>>>> 8e363850b883389c54917a14df6befe5895424dc
