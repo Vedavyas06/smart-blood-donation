@@ -39,41 +39,31 @@ const HospitalLogin: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
-      // Check if hospital data exists (simulating authentication)
-      const hospitalData = localStorage.getItem('hospitalData');
-      
-      if (hospitalData) {
-        const hospital = JSON.parse(hospitalData);
-        if (hospital.email === formData.email) {
+      try {
+        const response = await fetch("http://localhost:8000/hospital/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          const hospital = await response.json();
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('userType', 'hospital');
+          localStorage.setItem('hospitalData', JSON.stringify(hospital));
           alert('Login successful!');
           navigate('/hospital/dashboard');
         } else {
           setErrors({ email: 'Invalid email or password' });
         }
-      } else {
-        // For demo purposes, allow any valid email/password combination
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userType', 'hospital');
-        // Create demo hospital data
-        const demoHospital = {
-          id: Date.now().toString(),
-          hospitalName: 'Demo General Hospital',
-          email: formData.email,
-          phone: '+1 (555) 987-6543',
-          address: '456 Medical Ave, Healthcare District, City, State',
-          registeredAt: new Date().toISOString(),
-          status: 'active',
-          verificationStatus: 'verified'
-        };
-        localStorage.setItem('hospitalData', JSON.stringify(demoHospital));
-        alert('Login successful!');
-        navigate('/hospital/dashboard');
+      } catch (error) {
+        setErrors({ email: 'Server error. Please try again.' });
       }
     }
   };

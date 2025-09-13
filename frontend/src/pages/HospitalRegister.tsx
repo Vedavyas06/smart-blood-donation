@@ -5,10 +5,12 @@ import { Building2, Mail, Phone, MapPin } from 'lucide-react';
 const HospitalRegister: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    hospitalName: '',
+    name: '',
     email: '',
-    phone: '',
-    address: ''
+    contactNumber: '',
+    licenseNumber: '',
+    password: '',
+    location: ''
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -30,38 +32,45 @@ const HospitalRegister: React.FC = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.hospitalName.trim()) newErrors.hospitalName = 'Hospital name is required';
+    if (!formData.name.trim()) newErrors.name = 'Hospital name is required';
     if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Valid email is required';
     }
-    if (!formData.phone || !/^\+?[\d\s\-\(\)]{10,}$/.test(formData.phone)) {
-      newErrors.phone = 'Valid phone number is required';
+    if (!formData.contactNumber || !/^\+?[\d\s\-\(\)]{10,}$/.test(formData.contactNumber)) {
+      newErrors.contactNumber = 'Valid phone number is required';
     }
-    if (!formData.address.trim()) newErrors.address = 'Address is required';
+    if (!formData.location.trim()) newErrors.location = 'Address is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
-      // Store hospital data in localStorage (simulating backend)
-      const hospitalData = {
-        ...formData,
-        id: Date.now().toString(),
-        registeredAt: new Date().toISOString(),
-        status: 'active',
-        verificationStatus: 'pending'
-      };
-      
-      localStorage.setItem('hospitalData', JSON.stringify(hospitalData));
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userType', 'hospital');
-      
-      alert('Registration successful! Redirecting to dashboard...');
-      navigate('/hospital/dashboard');
+      try {
+        const response = await fetch("http://localhost:8000/hospital/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          const hospital = await response.json();
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('userType', 'hospital');
+          localStorage.setItem('hospitalData', JSON.stringify(hospital));
+          alert('Registration successful! Redirecting to dashboard...');
+          navigate('/hospital/dashboard');
+        } else {
+          setErrors({ email: 'Registration failed. Please try again.' });
+        }
+      } catch (error) {
+        setErrors({ email: 'Server error. Please try again.' });
+      }
     }
   };
 
@@ -81,25 +90,25 @@ const HospitalRegister: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Hospital Name */}
             <div>
-              <label htmlFor="hospitalName" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                 <Building2 className="w-4 h-4 inline mr-2" />
                 Hospital Name
               </label>
               <input
                 type="text"
-                id="hospitalName"
-                name="hospitalName"
-                value={formData.hospitalName}
+                id="name"
+                name="name"
+                value={formData.name}
                 onChange={handleInputChange}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                  errors.hospitalName ? 'border-red-500' : 'border-gray-300'
+                  errors.name ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Enter hospital name"
               />
-              {errors.hospitalName && <p className="text-red-500 text-sm mt-1">{errors.hospitalName}</p>}
+              {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
             </div>
 
-            {/* Email and Phone Row */}
+            {/* Email and Contact Number Row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -121,43 +130,75 @@ const HospitalRegister: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-700 mb-2">
                   <Phone className="w-4 h-4 inline mr-2" />
-                  Phone Number
+                  Contact Number
                 </label>
                 <input
                   type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
+                  id="contactNumber"
+                  name="contactNumber"
+                  value={formData.contactNumber}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.phone ? 'border-red-500' : 'border-gray-300'
+                    errors.contactNumber ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="+1 (555) 123-4567"
                 />
-                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+                {errors.contactNumber && <p className="text-red-500 text-sm mt-1">{errors.contactNumber}</p>}
               </div>
+            </div>
+
+            {/* License Number */}
+            <div>
+              <label htmlFor="licenseNumber" className="block text-sm font-medium text-gray-700 mb-2">
+                License Number
+              </label>
+              <input
+                type="text"
+                id="licenseNumber"
+                name="licenseNumber"
+                value={formData.licenseNumber}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300"
+                placeholder="Enter hospital license number"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300"
+                placeholder="Enter password"
+              />
             </div>
 
             {/* Address */}
             <div>
-              <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
                 <MapPin className="w-4 h-4 inline mr-2" />
                 Hospital Address
               </label>
               <textarea
-                id="address"
-                name="address"
-                value={formData.address}
+                id="location"
+                name="location"
+                value={formData.location}
                 onChange={handleInputChange}
                 rows={3}
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                  errors.address ? 'border-red-500' : 'border-gray-300'
+                  errors.location ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="Enter complete hospital address"
               />
-              {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+              {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
             </div>
 
             {/* Terms and Conditions */}

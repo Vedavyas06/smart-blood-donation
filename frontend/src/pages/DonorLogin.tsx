@@ -39,45 +39,37 @@ const DonorLogin: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (validateForm()) {
-      // Check if donor data exists (simulating authentication)
-      const donorData = localStorage.getItem('donorData');
-      
-      if (donorData) {
-        const donor = JSON.parse(donorData);
-        if (donor.email === formData.email) {
-          localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('userType', 'donor');
-          alert('Login successful!');
-          navigate('/donor/dashboard');
-        } else {
-          setErrors({ email: 'Invalid email or password' });
-        }
-      } else {
-        // For demo purposes, allow any valid email/password combination
+  
+  // ...existing code...
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (validateForm()) {
+    try {
+      const response = await fetch("http://localhost:8000/donor/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const donor = await response.json();
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userType', 'donor');
-        // Create demo donor data
-        const demoDonor = {
-          id: Date.now().toString(),
-          fullName: 'Demo Donor',
-          email: formData.email,
-          bloodGroup: 'O+',
-          phone: '+1 (555) 123-4567',
-          address: '123 Main St, City, State',
-          registeredAt: new Date().toISOString(),
-          status: 'active'
-        };
-        localStorage.setItem('donorData', JSON.stringify(demoDonor));
+        localStorage.setItem('donorData', JSON.stringify(donor));
         alert('Login successful!');
         navigate('/donor/dashboard');
+      } else {
+        setErrors({ email: 'Invalid email or password' });
       }
+    } catch (error) {
+      setErrors({ email: 'Server error. Please try again.' });
     }
-  };
-
+  }
+};
+// ...existing code...
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
