@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.DB_URL);
+        await mongoose.connect(process.env.DB_URL+"/"+process.env.DB_NAME+"?retryWrites=true&w=majority&appName=blood-donation");
         console.log("MongoDB connected");
     } catch (error) {
         console.error("MongoDB connection failed:", error);

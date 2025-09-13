@@ -12,3 +12,4 @@ connectDB()
 }).catch((error) => {
     console.log("Failed to connect to the database:", error);
 });
+
