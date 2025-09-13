@@ -24,7 +24,9 @@ export const loginHospital = asyncHandler(async (req, res) => {
     await hospital.save();
     const options={
         httpOnly:true,
-        secure:true
+        secure:false,
+        sameSite: "lax"
+
     }
     res.status(200).cookie("hospitalToken", token, options).json(new ApiResponse(200, "Hospital logged in successfully", { hospital,token }));
 });
@@ -35,7 +37,8 @@ export const logOutHospital = asyncHandler(async (req, res) => {
     await hospital.save();
     const options={
         httpOnly:true,
-        secure:true
+        secure:false,
+        sameSite: "lax"
     }
     res.status(200).clearCookie("hospitalToken",options).json(new ApiResponse(200, "Hospital logged out successfully"));
 });

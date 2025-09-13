@@ -54,6 +54,7 @@ const HospitalLogin: React.FC = () => {
 
         if (response.ok) {
           const hospital = await response.json();
+          localStorage.setItem('hospitalToken', hospital.message.hospital.token);
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('userType', 'hospital');
           localStorage.setItem('hospitalData', JSON.stringify(hospital));

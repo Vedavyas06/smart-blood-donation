@@ -65,10 +65,12 @@ const HospitalDashboard: React.FC = () => {
     }
     // setLoading(true);
     try {
+      const token = localStorage.getItem("hospitalToken");
       const response = await fetch('http://localhost:8000/requests/donors', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`  
         },
         credentials: 'include',
         body: JSON.stringify({
@@ -93,8 +95,8 @@ const HospitalDashboard: React.FC = () => {
       } else {
         alert('Failed to submit blood request.');
       }
-    } catch {
-      alert('Server error. Please try again.');
+    } catch (error){
+      console.log(error);
     }
     setLoading(false);
   };
