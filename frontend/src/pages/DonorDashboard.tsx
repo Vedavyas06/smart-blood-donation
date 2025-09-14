@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Heart, Calendar, Phone, Mail, MapPin, LogOut, Activity } from 'lucide-react';
-
+const donorProfile = JSON.parse(localStorage.getItem("donorProfile") || "{}");
 interface DonorData {
   id: string;
   fullName: string;
@@ -77,7 +77,7 @@ const DonorDashboard: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
-                  Welcome back, {donorData.fullName}!
+                  Welcome back, {localStorage.getItem("donorname")}!
                 </h1>
                 <p className="text-gray-600">Thank you for being a life-saver</p>
               </div>
@@ -102,7 +102,7 @@ const DonorDashboard: React.FC = () => {
                   <User className="w-5 h-5 text-gray-500 mt-1" />
                   <div>
                     <p className="text-sm font-medium text-gray-900">Full Name</p>
-                    <p className="text-gray-600">{donorData.fullName}</p>
+                    <p className="text-gray-600">{localStorage.getItem("donorname")}</p>
                   </div>
                 </div>
                 
@@ -110,7 +110,7 @@ const DonorDashboard: React.FC = () => {
                   <Heart className="w-5 h-5 text-red-500 mt-1" />
                   <div>
                     <p className="text-sm font-medium text-gray-900">Blood Group</p>
-                    <p className="text-gray-600 font-semibold">{donorData.bloodGroup}</p>
+                    <p className="text-gray-600 font-semibold">{localStorage.getItem("donorgroup")}</p>
                   </div>
                 </div>
 
@@ -118,7 +118,7 @@ const DonorDashboard: React.FC = () => {
                   <Mail className="w-5 h-5 text-gray-500 mt-1" />
                   <div>
                     <p className="text-sm font-medium text-gray-900">Email</p>
-                    <p className="text-gray-600">{donorData.email}</p>
+                    <p className="text-gray-600">{localStorage.getItem("donoremail")}</p>
                   </div>
                 </div>
 
@@ -126,7 +126,7 @@ const DonorDashboard: React.FC = () => {
                   <Phone className="w-5 h-5 text-gray-500 mt-1" />
                   <div>
                     <p className="text-sm font-medium text-gray-900">Phone</p>
-                    <p className="text-gray-600">{donorData.phone}</p>
+                    <p className="text-gray-600">{localStorage.getItem("donorphone")}</p>
                   </div>
                 </div>
 
@@ -134,15 +134,14 @@ const DonorDashboard: React.FC = () => {
                   <MapPin className="w-5 h-5 text-gray-500 mt-1" />
                   <div>
                     <p className="text-sm font-medium text-gray-900">Address</p>
-                    <p className="text-gray-600">{donorData.address}</p>
+                    <p className="text-gray-600">{localStorage.getItem("donorphone")}</p>
                   </div>
                 </div>
-
                 <div className="flex items-start space-x-3">
                   <Calendar className="w-5 h-5 text-gray-500 mt-1" />
                   <div>
                     <p className="text-sm font-medium text-gray-900">Member Since</p>
-                    <p className="text-gray-600">{registrationDate}</p>
+                    <p className="text-gray-600">{localStorage.getItem("donordate")}</p>
                   </div>
                 </div>
 
@@ -151,7 +150,7 @@ const DonorDashboard: React.FC = () => {
                   <div>
                     <p className="text-sm font-medium text-gray-900">Status</p>
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      {donorData.status}
+                      "ACTIVE"
                     </span>
                   </div>
                 </div>

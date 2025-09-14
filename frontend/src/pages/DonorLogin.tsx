@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User } from 'lucide-react';
-
 const DonorLogin: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -56,7 +55,14 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       if (response.ok) {
         const donor = await response.json();
+        localStorage.setItem('donorname',donor.message.donor.name); 
+        localStorage.setItem('donorage',donor.message.donor.age);
+        localStorage.setItem('donoremail',donor.message.donor.email);
+        localStorage.setItem('donorgroup',donor.message.donor.bloodGroup);
+        localStorage.setItem('donorphone',donor.message.donor.contactNumber);
         localStorage.setItem('donorToken', donor.message.donor.token);
+        localStorage.setItem('donordate', donor.message.donor.createdAt);
+        {console.log(localStorage.getItem("donordate"));}
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userType', 'donor');
         localStorage.setItem('donorData', JSON.stringify(donor));
