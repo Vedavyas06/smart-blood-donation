@@ -134,7 +134,7 @@ const DonorDashboard: React.FC = () => {
                   <MapPin className="w-5 h-5 text-gray-500 mt-1" />
                   <div>
                     <p className="text-sm font-medium text-gray-900">Address</p>
-                    <p className="text-gray-600">{localStorage.getItem("donorphone")}</p>
+                    <p className="text-gray-600">{localStorage.getItem("donorlocation")}</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">

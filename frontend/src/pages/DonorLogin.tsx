@@ -62,6 +62,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         localStorage.setItem('donorphone',donor.message.donor.contactNumber);
         localStorage.setItem('donorToken', donor.message.donor.token);
         localStorage.setItem('donordate', donor.message.donor.createdAt);
+        localStorage.setItem('donorlocation', donor.message.donor.location);
         {console.log(localStorage.getItem("donordate"));}
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userType', 'donor');

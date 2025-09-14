@@ -69,10 +69,9 @@ const HospitalDashboard: React.FC = () => {
       const response = await fetch('http://localhost:8000/requests/donors', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', 
           'Authorization': `Bearer ${token}`  
         },
-        credentials: 'include',
         body: JSON.stringify({
           bloodGroup: requestForm.bloodGroup,
           quantity: Number(requestForm.quantity),

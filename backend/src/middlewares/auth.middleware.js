@@ -5,8 +5,7 @@ import { Donor } from "../models/donor.model.js";
 import { Hospital } from "../models/hospital.model.js";
 export const verifyJWTDonor = asyncHandler(async(req, _, next) => {
     try {
-        console.log(req.cookies);
-        const token = req.cookies?.donorToken || req.header("Authorization")?.replace("Bearer ", "")
+        const token = req.header("Authorization")?.replace("Bearer ", "")
         
         // console.log(token);
         if (!token) {
