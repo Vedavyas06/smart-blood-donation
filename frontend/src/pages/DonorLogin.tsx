@@ -45,7 +45,8 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   if (validateForm()) {
     try {
-      const response = await fetch("http://localhost:8000/donor/login", {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/donor/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

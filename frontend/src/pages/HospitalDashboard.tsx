@@ -65,8 +65,9 @@ const HospitalDashboard: React.FC = () => {
     }
     // setLoading(true);
     try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
       const token = localStorage.getItem("hospitalToken");
-      const response = await fetch('http://localhost:8000/requests/donors', {
+      const response = await fetch(`${backendUrl}/requests/donors`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', 

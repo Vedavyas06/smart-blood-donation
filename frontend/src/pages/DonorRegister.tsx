@@ -21,7 +21,8 @@ function DonorRegister() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/donor/register", {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/donor/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

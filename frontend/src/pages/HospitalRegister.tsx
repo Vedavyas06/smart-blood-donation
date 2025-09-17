@@ -50,7 +50,8 @@ const HospitalRegister: React.FC = () => {
 
     if (validateForm()) {
       try {
-        const response = await fetch("http://localhost:8000/hospital/register", {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const response = await fetch(`${backendUrl}/hospital/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
