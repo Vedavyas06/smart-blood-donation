@@ -31,7 +31,7 @@ export const verifyJWTDonor = asyncHandler(async(req, _, next) => {
 
 export const verifyJWTHospital = asyncHandler(async(req, _, next) => {
     try {
-        const token = req.cookies?.hospitalToken || req.header("Authorization")?.replace("Bearer ", "")
+        const token = req.header("Authorization")?.replace("Bearer ", "")
         
         // console.log(token);
         if (!token) {
