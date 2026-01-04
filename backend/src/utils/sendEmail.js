@@ -1,28 +1,28 @@
-// src/utils/sendEmail.js
-import nodemailer from "nodemailer";
+import SibApiV3Sdk from "sib-api-v3-sdk";
+
+const client = SibApiV3Sdk.ApiClient.instance;
+const apiKey = client.authentications["api-key"];
+apiKey.apiKey = process.env.BREVO_API_KEY;
+
+const tranEmailApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
 export const sendEmail = async ({ to, subject, text, html }) => {
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail", // you can also use host/port for custom SMTP
-      auth: {
-        user: process.env.EMAIL_USER, // your Gmail address
-        pass: process.env.EMAIL_PASS, // Google app password
+    const response = await tranEmailApi.sendTransacEmail({
+      sender: {
+        email: "vedavyasofficial06@gmail.com", 
+        name: "DonorLink",
       },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html || `<p>${text}</p>`,
+      textContent: text,
     });
 
-    const mailOptions = {
-      from: `"BloodLink" <${process.env.EMAIL_USER}>`,
-      to,
-      subject,
-      text,
-      html,
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log(`📩 Email sent successfully to: ${to}`);
+    console.log("📩 Brevo response:", response);
+    console.log(`✅ Email SENT to: ${to}`);
   } catch (error) {
-    console.error("❌ Error sending email:", error.message);
-    throw error;
+    console.error("❌ Brevo error:", error.response?.body || error);
+    throw new Error("Email sending failed");
   }
 };

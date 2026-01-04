@@ -64,8 +64,8 @@ const HospitalRegister: React.FC = () => {
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('userType', 'hospital');
           localStorage.setItem('hospitalData', JSON.stringify(hospital));
-          alert('Registration successful! Redirecting to dashboard...');
-          navigate('/hospital/dashboard');
+          alert('Registration successful! Redirecting to login...');
+          navigate('/hospital/login');
         } else {
           setErrors({ email: 'Registration failed. Please try again.' });
         }
