@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Building2, Heart, LogOut, CheckCircle, AlertCircle, Clock } from 'lucide-react';
+import { Building2, Heart, LogOut, CheckCircle, Clock } from 'lucide-react';
 
 interface HospitalData {
-  id: string;
-  hospitalName: string;
+  _id: string;
+  name: string;
   email: string;
-  phone: string;
-  address: string;
-  registeredAt: string;
-  status: string;
-  verificationStatus: string;
+  contactNumber: string;
+  location: string;
+  licenseNumber: string;
+  createdAt: string;
 }
 
 interface BloodRequest {
@@ -49,6 +48,7 @@ const HospitalDashboard: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userType');
+    localStorage.removeItem('hospitalData'); // Good practice to clear on logout
     navigate('/');
   };
 
@@ -63,7 +63,7 @@ const HospitalDashboard: React.FC = () => {
       alert('Please select blood group and quantity');
       return;
     }
-    // setLoading(true);
+    setLoading(true);
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
       const token = localStorage.getItem("hospitalToken");
@@ -78,7 +78,7 @@ const HospitalDashboard: React.FC = () => {
           quantity: Number(requestForm.quantity),
         }),
       });
-      // console.log(response);
+
       if (response.ok) {
         const request: BloodRequest = {
           id: Date.now().toString(),
@@ -122,15 +122,12 @@ const HospitalDashboard: React.FC = () => {
               <Building2 className="w-8 h-8 text-blue-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{hospitalData.hospitalName}</h1>
+              {/* Changed hospitalData.hospitalName to hospitalData.name */}
+              <h1 className="text-2xl font-bold text-gray-900">{hospitalData.name}</h1>
               <div className="flex items-center space-x-2 mt-1">
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                    bg-green-100 text-green-800
-                `}>
-                    <>
-                      <CheckCircle className="w-3 h-3 mr-1" />
-                      Verified
-                    </>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <CheckCircle className="w-3 h-3 mr-1" />
+                  Verified
                 </span>
               </div>
             </div>
