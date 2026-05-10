@@ -58,7 +58,7 @@ const HospitalLogin: React.FC = () => {
           localStorage.setItem('hospitalToken', hospital.message.hospital.token);
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('userType', 'hospital');
-          localStorage.setItem('hospitalData', JSON.stringify(hospital));
+          localStorage.setItem('hospitalData', JSON.stringify(hospital.message.hospital.hospital));
           alert('Login successful!');
           navigate('/hospital/dashboard');
         } else {
